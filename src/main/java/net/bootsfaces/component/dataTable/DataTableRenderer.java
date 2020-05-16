@@ -564,7 +564,11 @@ public class DataTableRenderer extends CoreRenderer {
 		rw.writeText("$(document).ready(function() {", null);
 		// # Enclosure-scoped variable initialization
 		String options = "";
-		options = addOptions("fixedHeader: " + dataTable.isFixedHeader(), options);
+		if (dataTable.isFixedHeader()) {
+			options = addOptions("fixedHeader: {header: true, headerOffset: $('#fixed').height()}", options);
+		}else{
+			options = addOptions("fixedHeader: false", options);
+		}
 		options = addOptions("responsive: " + dataTable.isResponsive(), options);
 		options = addOptions("paging: " + dataTable.isPaginated(), options);
 		if (!dataTable.isInfo()) {

@@ -565,7 +565,7 @@ public class DataTableRenderer extends CoreRenderer {
 		// # Enclosure-scoped variable initialization
 		String options = "";
 		if (dataTable.isFixedHeader()) {
-			options = addOptions("fixedHeader: {header: true, headerOffset: $('#fixed').height()}", options);
+			options = addOptions("fixedHeader: {header: true, headerOffset: $('#" + clientIdRaw.replace(":", "\\\\:") + "_wrapper').height()}", options);
 		}else{
 			options = addOptions("fixedHeader: false", options);
 		}

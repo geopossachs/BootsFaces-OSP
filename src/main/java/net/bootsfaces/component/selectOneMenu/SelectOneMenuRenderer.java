@@ -91,10 +91,9 @@ public class SelectOneMenuRenderer extends CoreInputRenderer {
 						submittedValue = null != converter ? currentOptionValueAsString : currentOptionValue;
 					}
 					menu.setSubmittedValue(submittedValue);
-					menu.setValid(true);
-					
-					menu.validateValue(context, submittedValue);
+					menu.setValid(true); //FIXME - purpose of it				
 					new AJAXRenderer().decode(context, component, clientId);
+					
 					if (menu.isValid()) {
 						if (currentOptionValue == null)  {
 							menu.setLocalValueSet(true);
@@ -103,15 +102,13 @@ public class SelectOneMenuRenderer extends CoreInputRenderer {
 					return;
 				}
 			}
-			menu.validateValue(context, null);
 			menu.setSubmittedValue(null);
-			menu.setValid(false);
+			menu.setValid(false); //FIXME - purpose of it
 			return;
 		}
-
-		menu.setValid(true);
-		menu.validateValue(context, submittedOptionValue);
+		
 		menu.setSubmittedValue(submittedOptionValue);
+		menu.setValid(true); //FIXME - purpose of it
 		new AJAXRenderer().decode(context, component, clientId);
 	}
 

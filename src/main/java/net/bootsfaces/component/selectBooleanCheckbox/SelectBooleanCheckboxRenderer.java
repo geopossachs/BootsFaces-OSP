@@ -3,19 +3,18 @@
  *
  *  This file is part of BootsFaces.
  *
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*    http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-
 package net.bootsfaces.component.selectBooleanCheckbox;
 
 import java.io.IOException;
@@ -32,22 +31,20 @@ import net.bootsfaces.render.Responsive;
 import net.bootsfaces.render.Tooltip;
 import net.bootsfaces.utils.FacesMessages;
 
-/** This class generates the HTML code of &lt;b:selectBooleanCheckbox /&gt;. */
+/**
+ * This class generates the HTML code of &lt;b:selectBooleanCheckbox /&gt;.
+ */
 @FacesRenderer(componentFamily = "net.bootsfaces.component", rendererType = "net.bootsfaces.component.selectBooleanCheckbox.SelectBooleanCheckbox")
 public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 
 	/**
-	 * This methods receives and processes input made by the user. More
-	 * specifically, it ckecks whether the user has interacted with the current
-	 * b:selectBooleanCheckbox. The default implementation simply stores the
-	 * input value in the list of submitted values. If the validation checks are
-	 * passed, the values in the <code>submittedValues</code> list are store in
-	 * the backend bean.
+	 * This methods receives and processes input made by the user. More specifically, it ckecks whether the user has
+	 * interacted with the current b:selectBooleanCheckbox. The default implementation simply stores the input value
+	 * in the list of submitted values. If the validation checks are passed, the values in the
+	 * <code>submittedValues</code> list are store in the backend bean.
 	 *
-	 * @param context
-	 *            the FacesContext.
-	 * @param component
-	 *            the current b:selectBooleanCheckbox.
+	 * @param context the FacesContext.
+	 * @param component the current b:selectBooleanCheckbox.
 	 */
 	@Override
 	public void decode(FacesContext context, UIComponent component) {
@@ -57,17 +54,19 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 			return;
 		}
 
-		decodeBehaviors(context, selectBooleanCheckbox); // moved to
-															// AJAXRenderer
+		decodeBehaviors(context, selectBooleanCheckbox); // moved to AJAXRenderer
 
 		String clientId = selectBooleanCheckbox.getClientId(context);
 		String submittedValue = context.getExternalContext().getRequestParameterMap().get(clientId);
 
 		if (submittedValue != null) {
 			selectBooleanCheckbox.setSubmittedValue("on".equals(submittedValue));
+			// TODO what represents this *_helper ? 
 		} else if (context.getExternalContext().getRequestParameterMap().containsKey(clientId + "_helper")) {
 			selectBooleanCheckbox.setSubmittedValue(false);
 		}
+		
+		// TODO this is validation in a decode funkction :-(
 		if (Boolean.FALSE.equals(selectBooleanCheckbox.getSubmittedValue()) && selectBooleanCheckbox.isRequired()) {
 			String userDefinedMessage = selectBooleanCheckbox.getRequiredMessage();
 			if (null != userDefinedMessage) {
@@ -88,17 +87,12 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 		}
 	}
 
-
 	/**
-	 * This methods generates the HTML code of the current
-	 * b:selectBooleanCheckbox.
+	 * This methods generates the HTML code of the current b:selectBooleanCheckbox.
 	 *
-	 * @param context
-	 *            the FacesContext.
-	 * @param component
-	 *            the current b:selectBooleanCheckbox.
-	 * @throws IOException
-	 *             thrown if something goes wrong when writing the HTML code.
+	 * @param context the FacesContext.
+	 * @param component the current b:selectBooleanCheckbox.
+	 * @throws IOException thrown if something goes wrong when writing the HTML code.
 	 */
 	@Override
 	public void encodeBegin(FacesContext context, UIComponent component) throws IOException {
@@ -108,15 +102,15 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 		SelectBooleanCheckbox selectBooleanCheckbox = (SelectBooleanCheckbox) component;
 		ResponseWriter rw = context.getResponseWriter();
 		String clientId = selectBooleanCheckbox.getClientId(context);
-		
+
 		String span = null;
 		if (!isHorizontalForm(component)) {
 			span = startColSpanDiv(rw, selectBooleanCheckbox);
 		}
 		rw.startElement("div", component);
 		rw.writeAttribute("id", clientId, null);
-        writeAttribute(rw,"class", getWithFeedback(InputMode.DEFAULT, component), "class");
-        if (null != selectBooleanCheckbox.getDir()) {
+		writeAttribute(rw, "class", getWithFeedback(InputMode.DEFAULT, component), "class");
+		if (null != selectBooleanCheckbox.getDir()) {
 			rw.writeAttribute("dir", selectBooleanCheckbox.getDir(), "dir");
 		}
 
@@ -132,25 +126,21 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 	}
 
 	/**
-	 * Renders the optional label. This method is protected in order to allow
-	 * third-party frameworks to derive from it.
+	 * Renders the optional label. This method is protected in order to allow third-party frameworks to derive from
+	 * it.
 	 *
-	 * @param rw
-	 *            the response writer
-	 * @param clientId
-	 *            the id used by the label to reference the input field
-	 * @param selectBooleanCheckbox
-	 *            the component to render
-	 * @throws IOException
-	 *             may be thrown by the response writer
+	 * @param rw the response writer
+	 * @param clientId the id used by the label to reference the input field
+	 * @param selectBooleanCheckbox the component to render
+	 * @throws IOException may be thrown by the response writer
 	 */
 	protected void addLabel(ResponseWriter rw, String clientId, SelectBooleanCheckbox selectBooleanCheckbox)
-			throws IOException {
+		throws IOException {
 		if (selectBooleanCheckbox.isRenderLabel()) {
 			String label = selectBooleanCheckbox.getLabel();
 			if (label != null) {
 				rw.startElement("label", selectBooleanCheckbox);
-                                generateErrorAndRequiredClass(selectBooleanCheckbox, rw, clientId, selectBooleanCheckbox.getLabelStyleClass(), Responsive.getResponsiveLabelClass(selectBooleanCheckbox), "control-label");
+				generateErrorAndRequiredClass(selectBooleanCheckbox, rw, clientId, selectBooleanCheckbox.getLabelStyleClass(), Responsive.getResponsiveLabelClass(selectBooleanCheckbox), "control-label");
 				writeAttribute(rw, "style", selectBooleanCheckbox.getLabelStyle());
 
 				if (null != selectBooleanCheckbox.getDir()) {
@@ -165,35 +155,30 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 	}
 
 	/**
-	 * Terminate the column span div (if there's one). This method is protected
-	 * in order to allow third-party frameworks to derive from it.
+	 * Terminate the column span div (if there's one). This method is protected in order to allow third-party
+	 * frameworks to derive from it.
 	 *
-	 * @param rw
-	 *            the response writer
-	 * @param span
-	 *            the width of the components (in BS columns).
-	 * @throws IOException
-	 *             may be thrown by the response writer
+	 * @param rw the response writer
+	 * @param span the width of the components (in BS columns).
+	 * @throws IOException may be thrown by the response writer
 	 */
 	protected void closeColSpanDiv(ResponseWriter rw, String span) throws IOException {
-        if (span != null && span.trim().length() > 0) {
-            rw.endElement("div");
-        }
+		if (span != null && span.trim().length() > 0) {
+			rw.endElement("div");
+		}
 	}
 
 	/**
 	 * Renders the input tag.
 	 *
-	 * @param context
-	 *            the FacesContext
+	 * @param context the FacesContext
 	 * @param rw
 	 * @param clientId
-	 * @param selectBooleanCheckbox
-	 *            the component to render
+	 * @param selectBooleanCheckbox the component to render
 	 * @throws java.io.IOException
 	 */
 	protected void renderInputTag(FacesContext context, ResponseWriter rw, String clientId,
-			SelectBooleanCheckbox selectBooleanCheckbox) throws IOException {
+		SelectBooleanCheckbox selectBooleanCheckbox) throws IOException {
 		int numberOfDivs = 0;
 		String responsiveStyleClass = Responsive.getResponsiveStyleClass(selectBooleanCheckbox, false).trim();
 		if (responsiveStyleClass.length() > 0 && isHorizontalForm(selectBooleanCheckbox)) {
@@ -201,7 +186,7 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 			rw.writeAttribute("class", responsiveStyleClass, "class");
 			numberOfDivs++;
 		}
-		
+
 		renderInputTag(rw, context, selectBooleanCheckbox, clientId);
 		renderInputTagAttributes(rw, clientId, selectBooleanCheckbox);
 		// Render Ajax Capabilities
@@ -210,26 +195,24 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 		renderInputTagValue(context, rw, selectBooleanCheckbox);
 		renderInputTagEnd(rw, selectBooleanCheckbox);
 		renderInputTagHelper(rw, context, selectBooleanCheckbox, clientId);
-		
+
 		while (numberOfDivs > 0) {
-			rw.endElement("div"); 
+			rw.endElement("div");
 			numberOfDivs--;
 		}
 	}
 
 	/**
-	 * Renders the start of the input tag. This method is protected in order to
-	 * allow third-party frameworks to derive from it.
+	 * Renders the start of the input tag.This method is protected in order to allow third-party frameworks to
+	 * derive from it.
 	 *
-	 * @param rw
-	 *            the response writer
-	 * @param selectBooleanCheckbox
-	 *            the component to render
-	 * @throws IOException
-	 *             may be thrown by the response writer
+	 * @param rw the response writer
+	 * @param context
+	 * @param selectBooleanCheckbox the component to render
+	 * @throws IOException may be thrown by the response writer
 	 */
 	protected void renderInputTagHelper(ResponseWriter rw, FacesContext context,
-			SelectBooleanCheckbox selectBooleanCheckbox, String clientId) throws IOException {
+		SelectBooleanCheckbox selectBooleanCheckbox, String clientId) throws IOException {
 		rw.startElement("input", selectBooleanCheckbox);
 		rw.writeAttribute("name", clientId + "_helper", null);
 		rw.writeAttribute("value", "on", "value");
@@ -240,18 +223,17 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 	}
 
 	/**
-	 * Renders the start of the input tag. This method is protected in order to
-	 * allow third-party frameworks to derive from it.
+	 * Renders the start of the input tag.This method is protected in order to allow third-party frameworks to
+	 * derive from it.
 	 *
-	 * @param rw
-	 *            the response writer
-	 * @param selectBooleanCheckbox
-	 *            the component to render
-	 * @throws IOException
-	 *             may be thrown by the response writer
+	 * @param rw the response writer
+	 * @param context
+	 * @param selectBooleanCheckbox the component to render
+	 * @param clientId
+	 * @throws IOException may be thrown by the response writer
 	 */
-	protected void renderInputTag(ResponseWriter rw, FacesContext context, SelectBooleanCheckbox selectBooleanCheckbox,
-			String clientId) throws IOException {
+	protected void renderInputTag(ResponseWriter rw, FacesContext context,
+		SelectBooleanCheckbox selectBooleanCheckbox, String clientId) throws IOException {
 		rw.startElement("div", selectBooleanCheckbox);
 		if (null != selectBooleanCheckbox.getDir()) {
 			rw.writeAttribute("dir", selectBooleanCheckbox.getDir(), "dir");
@@ -267,20 +249,16 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 	}
 
 	/**
-	 * Renders the attributes of the input tag. This method is protected in
-	 * order to allow third-party frameworks to derive from it.
+	 * Renders the attributes of the input tag. This method is protected in order to allow third-party frameworks to
+	 * derive from it.
 	 *
-	 * @param rw
-	 *            the response writer
-	 * @param clientId
-	 *            the client id (used both as id and name)
-	 * @param selectBooleanCheckbox
-	 *            the component to render
-	 * @throws IOException
-	 *             may be thrown by the response writer
+	 * @param rw the response writer
+	 * @param clientId the client id (used both as id and name)
+	 * @param selectBooleanCheckbox the component to render
+	 * @throws IOException may be thrown by the response writer
 	 */
 	protected void renderInputTagAttributes(ResponseWriter rw, String clientId,
-			SelectBooleanCheckbox selectBooleanCheckbox) throws IOException {
+		SelectBooleanCheckbox selectBooleanCheckbox) throws IOException {
 		rw.writeAttribute("name", clientId, null);
 		rw.writeAttribute("id", "input_" + clientId, null);
 		rw.writeAttribute("type", "checkbox", null);
@@ -311,34 +289,30 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 		addAttributesForSwitch(rw, selectBooleanCheckbox);
 
 		// Encode attributes (HTML 4 pass-through + DHTML)
-		R.encodeHTML4DHTMLAttrs(rw, selectBooleanCheckbox.getAttributes(), new String[] { "accesskey", "alt", "lang", "style", "tabindex", "title" });
+		R.encodeHTML4DHTMLAttrs(rw, selectBooleanCheckbox.getAttributes(), new String[]{"accesskey", "alt", "lang", "style", "tabindex", "title"});
 	}
 
 	/**
-	 * The b:switch and the b:selectBooleanCheckbox share most of their code.
-	 * This method allows to add extra attributes for the switch.
+	 * The b:switch and the b:selectBooleanCheckbox share most of their code. This method allows to add extra
+	 * attributes for the switch.
 	 *
 	 * @param rw
 	 * @param selectBooleanCheckbox
 	 * @throws IOException
 	 */
 	protected void addAttributesForSwitch(ResponseWriter rw, SelectBooleanCheckbox selectBooleanCheckbox)
-			throws IOException {
+		throws IOException {
 	}
 
 	/**
-	 * Closes the input tag. This method is protected in order to allow
-	 * third-party frameworks to derive from it.
+	 * Closes the input tag. This method is protected in order to allow third-party frameworks to derive from it.
 	 *
-	 * @param rw
-	 *            the response writer
-	 * @param selectBooleanCheckbox
-	 *            the component to render
-	 * @throws IOException
-	 *             may be thrown by the response writer
+	 * @param rw the response writer
+	 * @param selectBooleanCheckbox the component to render
+	 * @throws IOException may be thrown by the response writer
 	 */
 	protected void renderInputTagEnd(ResponseWriter rw, SelectBooleanCheckbox selectBooleanCheckbox)
-			throws IOException {
+		throws IOException {
 		rw.endElement("input");
 		String caption = selectBooleanCheckbox.getCaption();
 		if (null != caption) {
@@ -353,20 +327,16 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 	}
 
 	/**
-	 * Renders the value of the input tag. This method is protected in order to
-	 * allow third-party frameworks to derive from it.
+	 * Renders the value of the input tag. This method is protected in order to allow third-party frameworks to
+	 * derive from it.
 	 *
-	 * @param context
-	 *            the FacesContext
-	 * @param rw
-	 *            the response writer
-	 * @param selectBooleanCheckbox
-	 *            the component to render
-	 * @throws IOException
-	 *             may be thrown by the response writer
+	 * @param context the FacesContext
+	 * @param rw the response writer
+	 * @param selectBooleanCheckbox the component to render
+	 * @throws IOException may be thrown by the response writer
 	 */
 	protected void renderInputTagValue(FacesContext context, ResponseWriter rw,
-			SelectBooleanCheckbox selectBooleanCheckbox) throws IOException {
+		SelectBooleanCheckbox selectBooleanCheckbox) throws IOException {
 		String v = getValue2Render(context, selectBooleanCheckbox);
 		if (v != null && "true".equals(v)) {
 			rw.writeAttribute("checked", v, null);
@@ -374,42 +344,36 @@ public class SelectBooleanCheckboxRenderer extends CoreInputRenderer {
 	}
 
 	/**
-	 * Start the column span div (if there's one). This method is protected in
-	 * order to allow third-party frameworks to derive from it.
+	 * Start the column span div (if there's one).This method is protected in order to allow third-party frameworks
+	 * to derive from it.
 	 *
-	 * @param rw
-	 *            the response writer
-	 * @param selectBooleanCheckbox
-	 *            the component to render
-	 * @throws IOException
-	 *             may be thrown by the response writer
+	 * @param rw the response writer
+	 * @param selectBooleanCheckbox the component to render
+	 * @return
+	 * @throws IOException may be thrown by the response writer
 	 */
 	protected String startColSpanDiv(ResponseWriter rw, SelectBooleanCheckbox selectBooleanCheckbox) throws IOException {
-        String clazz = Responsive.getResponsiveStyleClass(selectBooleanCheckbox, false);
-        if (clazz != null && clazz.trim().length() > 0) {
-            rw.startElement("div", selectBooleanCheckbox);
-            rw.writeAttribute("class", clazz, "class");
-        }
-        return clazz;
+		String clazz = Responsive.getResponsiveStyleClass(selectBooleanCheckbox, false);
+		if (clazz != null && clazz.trim().length() > 0) {
+			rw.startElement("div", selectBooleanCheckbox);
+			rw.writeAttribute("class", clazz, "class");
+		}
+		return clazz;
 	}
 
 	/**
-	 * Starts the input field group (if needed to display a component seamlessly
-	 * in front of or behind the input field). This method is protected in order
-	 * to allow third-party frameworks to derive from it.
+	 * Starts the input field group (if needed to display a component seamlessly in front of or behind the input
+	 * field). This method is protected in order to allow third-party frameworks to derive from it.
 	 *
-	 * @param rw
-	 *            the response writer
+	 * @param rw the response writer
 	 * @param hasPrependingAddOn
 	 * @param hasAppendingAddOn
-	 * @param selectBooleanCheckbox
-	 *            the component to render
+	 * @param selectBooleanCheckbox the component to render
 	 * @return true if there is an add-on in front of or behind the input field
-	 * @throws IOException
-	 *             may be thrown by the response writer
+	 * @throws IOException may be thrown by the response writer
 	 */
 	protected boolean startInputGroupForAddOn(ResponseWriter rw, boolean hasPrependingAddOn, boolean hasAppendingAddOn,
-			SelectBooleanCheckbox selectBooleanCheckbox) throws IOException {
+		SelectBooleanCheckbox selectBooleanCheckbox) throws IOException {
 		final boolean hasAddon = hasAppendingAddOn || hasPrependingAddOn;
 		if (hasAddon) {
 			rw.startElement("div", selectBooleanCheckbox);
